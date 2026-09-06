@@ -141,17 +141,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-[100dvh] w-full bg-[#0B1120] flex justify-center items-center overflow-x-hidden">
-      {/* Floating navigation controls with solid colors */}
-      <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
+    <div className="min-h-[100dvh] w-full bg-[#FAF9F6] text-[#18181B] flex justify-center items-start overflow-x-hidden">
+      {/* Subtle, refined floating navigation controls */}
+      <div className="fixed top-3.5 left-3.5 z-50 flex items-center gap-2">
         {appMode !== 'portal' && (
           <button
             onClick={handleGoToPortal}
             title="Front Page"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1E293B] hover:bg-[#334155] border border-[#475569] text-white text-[10px] tracking-wider uppercase transition cursor-pointer shadow-md"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-white/90 hover:bg-white border border-stone-200 text-stone-600 hover:text-[#18181B] text-[10px] tracking-widest uppercase transition cursor-pointer shadow-xs backdrop-blur-xs"
           >
-            <Home className="w-3 h-3 text-[#F59E0B]" />
-            <span className="hidden sm:inline">Portal</span>
+            <Home className="w-3 h-3 text-[#8A2BCC]" />
+            <span className="hidden sm:inline">Directory</span>
           </button>
         )}
 
@@ -161,10 +161,10 @@ export default function App() {
               setPickerPurpose('switch');
               setIsPickerOpen(true);
             }}
-            title="Switch Teacher"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1E293B] hover:bg-[#334155] border border-[#475569] text-white text-[10px] tracking-wider uppercase transition cursor-pointer shadow-md"
+            title="Switch Faculty"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-white/90 hover:bg-white border border-stone-200 text-stone-600 hover:text-[#18181B] text-[10px] tracking-widest uppercase transition cursor-pointer shadow-xs backdrop-blur-xs"
           >
-            <Users className="w-3 h-3 text-[#10B981]" />
+            <Users className="w-3 h-3 text-[#11A960]" />
             <span>{teacher.name.split(' ')[0]}</span>
           </button>
         )}
@@ -172,10 +172,10 @@ export default function App() {
         {appMode === 'interactive-keepsake' && (
           <button
             onClick={() => handleGoToTeacherHub()}
-            title="View Letters Wall"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1E293B] hover:bg-[#334155] border border-[#475569] text-white text-[10px] tracking-wider uppercase transition cursor-pointer shadow-md"
+            title="View Letters Hub"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-white/90 hover:bg-white border border-stone-200 text-stone-600 hover:text-[#18181B] text-[10px] tracking-widest uppercase transition cursor-pointer shadow-xs backdrop-blur-xs"
           >
-            <BookOpen className="w-3 h-3 text-[#F43F5E]" />
+            <BookOpen className="w-3 h-3 text-[#8A2BCC]" />
             <span className="hidden sm:inline">Letters Hub</span>
           </button>
         )}
@@ -193,8 +193,8 @@ export default function App() {
         />
       )}
 
-      {/* Centered Mobile-First Viewport Canvas with solid color */}
-      <main className="w-full max-w-[440px] min-h-[100dvh] relative bg-[#0F172A] shadow-2xl sm:border-x sm:border-[#334155] overflow-hidden flex flex-col">
+      {/* Responsive Canvas: Mobile first (390px target) expanding up to 1100px on desktop */}
+      <main className="w-full max-w-5xl min-h-[100dvh] relative bg-[#FAF9F6] overflow-hidden flex flex-col">
         <AnimatePresence mode="wait">
           {/* 1. FRONT PAGE (PORTAL) */}
           {appMode === 'portal' && (

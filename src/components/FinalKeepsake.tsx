@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { RotateCcw, Share2, Check, ExternalLink } from 'lucide-react';
+import { RotateCcw, Share2, Check, BookOpen, Users } from 'lucide-react';
 import { useState } from 'react';
 import { TeacherData } from '@/src/types';
 import { getTeacherDirectUrl } from '@/src/config';
@@ -11,7 +11,12 @@ interface Props {
   onViewStudentLetters?: () => void;
 }
 
-export function FinalKeepsake({ teacher, onResetExperience, onOpenTeacherPicker, onViewStudentLetters }: Props) {
+export function FinalKeepsake({
+  teacher,
+  onResetExperience,
+  onOpenTeacherPicker,
+  onViewStudentLetters,
+}: Props) {
   const [copied, setCopied] = useState(false);
 
   const handleCopyLink = () => {
@@ -23,92 +28,119 @@ export function FinalKeepsake({ teacher, onResetExperience, onOpenTeacherPicker,
   };
 
   return (
-    <div className="relative min-h-[100dvh] w-full paper-grain text-[#23201D] flex flex-col justify-between items-center px-6 py-12 select-none">
-      {/* Top subtle bar */}
+    <div className="relative min-h-[100dvh] w-full bg-[#FAF9F6] text-[#18181B] flex flex-col justify-between items-center px-6 sm:px-12 py-12 sm:py-16 select-none">
+      {/* Top institution marker */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="w-full max-w-sm flex justify-between items-center text-[10px] tracking-[0.25em] uppercase text-[#8C7A65] border-b border-[#E8DFC8] pb-3"
+        className="w-full max-w-md flex justify-between items-center text-[10px] tracking-[0.25em] uppercase text-stone-400 border-b border-stone-200/80 pb-3 font-sans"
       >
-        <span>Daffodil University</span>
-        <span>Teacher's Day 2026</span>
+        <span>DAFFODIL UNIVERSITY SCHOOL & COLLEGE</span>
+        <span className="text-[#8A2BCC] font-medium">2026</span>
       </motion.div>
 
-      {/* Center Sign-off Card */}
+      {/* Center Closing Composition */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="my-auto max-w-sm w-full text-center flex flex-col items-center"
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className="my-auto max-w-md w-full text-center flex flex-col items-center"
       >
-        <div className="w-10 h-10 rounded-full bg-[#EFE8DC] border border-[#DDD1BE] flex items-center justify-center text-[#8C7A65] text-sm font-serif mb-6 shadow-xs">
-          ❦
+        {/* Small Purple/Green Geometric Mark */}
+        <div className="flex items-center gap-1.5 mb-8">
+          <span className="w-2.5 h-2.5 bg-[#8A2BCC] rounded-xs" />
+          <span className="w-2 h-2 rounded-full bg-[#11A960]" />
         </div>
 
-        <p className="font-serif italic text-xl text-[#786652] mb-1">
-          With enduring gratitude,
+        {/* WITH GRATITUDE, */}
+        <p className="text-[11px] uppercase tracking-[0.3em] text-stone-400 font-sans font-medium mb-3">
+          WITH GRATITUDE,
         </p>
 
-        <h2 className="font-handwriting text-4xl sm:text-5xl text-[#1E1B18] mt-2 mb-4">
+        {/* [STUDENT NAME] */}
+        <h2 className="font-handwriting text-4xl sm:text-5xl text-[#18181B] mb-8">
           {teacher.studentName || 'Your students'}
         </h2>
 
-        <p className="text-xs uppercase tracking-[0.25em] text-[#8C7A65] font-sans">
-          Teacher's Day 2026
-        </p>
+        {/* Thin Divider */}
+        <div className="w-12 h-px bg-stone-200 mb-8" />
 
-        {teacher.whyWebsiteNote && (
-          <p className="mt-8 text-xs text-[#6E6356] font-light leading-relaxed max-w-xs italic border-t border-[#EFE8DC] pt-5">
-            "{teacher.whyWebsiteNote}"
+        {/* TEACHER'S DAY 2026 */}
+        <div className="space-y-1 mb-8">
+          <p className="text-xs uppercase tracking-[0.25em] text-[#18181B] font-sans font-semibold">
+            TEACHER'S DAY
           </p>
-        )}
+          <p className="font-serif italic text-lg text-[#8A2BCC]">
+            2026
+          </p>
+        </div>
 
-        {/* Action controls */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 mt-10">
+        {/* MADE ESPECIALLY FOR [TEACHER NAME] */}
+        <div className="space-y-1 mb-10">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-stone-400 font-sans">
+            MADE ESPECIALLY FOR
+          </p>
+          <p className="font-serif text-2xl sm:text-3xl text-[#18181B] font-normal">
+            {teacher.name}
+          </p>
+          {teacher.designation && (
+            <p className="text-[11px] text-stone-500 font-light mt-1">
+              {teacher.designation} {teacher.subject ? `• ${teacher.subject}` : ''}
+            </p>
+          )}
+        </div>
+
+        {/* Action Controls */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center">
           <button
             onClick={onResetExperience}
-            className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#23201D] text-[#FAF8F5] text-xs uppercase tracking-[0.2em] transition-all hover:bg-[#38332E] active:scale-95 cursor-pointer shadow-md"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-sm bg-[#18181B] text-[#FFFFFF] text-xs uppercase tracking-[0.2em] transition-all hover:bg-[#8A2BCC] active:scale-[0.98] cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-[#C8A876] transition-transform group-hover:-rotate-45" />
-            <span>experience again</span>
+            <RotateCcw className="w-3.5 h-3.5 text-[#11A960]" />
+            <span>Experience Again</span>
           </button>
 
           <button
             onClick={handleCopyLink}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/70 border border-[#D9CEBA] text-[#4A4237] text-xs uppercase tracking-[0.15em] transition-all hover:bg-white active:scale-95 cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-sm bg-white border border-stone-200 text-stone-700 text-xs uppercase tracking-[0.15em] transition-all hover:border-stone-400 active:scale-[0.98] cursor-pointer"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Link copied</span>
+                <Check className="w-3.5 h-3.5 text-[#11A960]" />
+                <span className="text-[#11A960] font-medium">Link Copied</span>
               </>
             ) : (
               <>
-                <Share2 className="w-3.5 h-3.5 text-stone-500" />
-                <span>Share link</span>
+                <Share2 className="w-3.5 h-3.5 text-stone-400" />
+                <span>Share Link</span>
               </>
             )}
           </button>
         </div>
 
-        {onViewStudentLetters && (
-          <button
-            onClick={onViewStudentLetters}
-            className="mt-4 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#EFE8DC] border border-[#DDD1BE] text-[#38332E] text-xs font-medium tracking-wide uppercase hover:bg-[#E5DCce] transition cursor-pointer"
-          >
-            <span>Read Letters From Students</span>
-          </button>
-        )}
+        {/* Additional links */}
+        <div className="flex flex-col items-center gap-2 mt-6">
+          {onViewStudentLetters && (
+            <button
+              onClick={onViewStudentLetters}
+              className="inline-flex items-center gap-1.5 text-xs text-[#8A2BCC] hover:underline underline-offset-4 tracking-wider uppercase font-medium cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#11A960]" />
+              <span>Read Letters From Students</span>
+            </button>
+          )}
 
-        {onOpenTeacherPicker && (
-          <button
-            onClick={onOpenTeacherPicker}
-            className="mt-4 text-[11px] text-[#8C7A65] hover:text-[#23201D] underline underline-offset-4 tracking-wider cursor-pointer"
-          >
-            View other teachers' keepsakes
-          </button>
-        )}
+          {onOpenTeacherPicker && (
+            <button
+              onClick={onOpenTeacherPicker}
+              className="inline-flex items-center gap-1 text-[11px] text-stone-400 hover:text-stone-700 underline underline-offset-4 tracking-wider cursor-pointer"
+            >
+              <Users className="w-3 h-3" />
+              <span>View other teachers' keepsakes</span>
+            </button>
+          )}
+        </div>
       </motion.div>
 
       {/* Bottom Footer Note */}
@@ -116,14 +148,9 @@ export function FinalKeepsake({ teacher, onResetExperience, onOpenTeacherPicker,
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.8 }}
-        className="text-center text-[10px] text-[#9E8E7A] tracking-wider font-light"
+        className="text-center text-[10px] text-stone-400 tracking-[0.2em] font-light uppercase font-sans"
       >
-        <p>Made especially for {teacher.name}.</p>
-        {teacher.designation && (
-          <p className="text-[9px] uppercase tracking-widest text-[#B5A592] mt-0.5">
-            {teacher.designation} {teacher.subject ? `• ${teacher.subject}` : ''}
-          </p>
-        )}
+        <span>A Digital Keepsake • DUSC</span>
       </motion.div>
     </div>
   );

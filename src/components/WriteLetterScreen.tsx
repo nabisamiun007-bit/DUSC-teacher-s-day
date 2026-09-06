@@ -1,6 +1,6 @@
 import { useState, FormEvent, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Send, CheckCircle2, Heart, Sparkles, ChevronDown } from 'lucide-react';
+import { motion } from 'motion/react';
+import { ArrowLeft, Send, CheckCircle2, ChevronDown } from 'lucide-react';
 import { TeacherData } from '@/src/types';
 import { teachers, getTeacherHonorific } from '@/src/data/teachers';
 import { sendStudentLetter } from '@/src/data/lettersService';
@@ -27,7 +27,6 @@ export function WriteLetterScreen({
   const [errorMsg, setErrorMsg] = useState('');
   const [isTeacherDropdownOpen, setIsTeacherDropdownOpen] = useState(false);
 
-  // Selected teacher object
   const currentTeacher = useMemo(() => {
     return teachers[selectedSlug] || initialTeacher;
   }, [selectedSlug, initialTeacher]);
@@ -80,270 +79,219 @@ export function WriteLetterScreen({
     }
   };
 
-  const handleResetForAnother = () => {
-    setMessage('');
-    setIsSubmitted(false);
-  };
-
   return (
-    <div className="relative min-h-[100dvh] w-full flex flex-col justify-between px-5 py-6 text-[#F8FAFC] bg-[#0F172A] overflow-y-auto overflow-x-hidden">
-      {/* Top Navigation */}
-      <header className="w-full flex items-center justify-between pb-4 border-b border-[#334155]">
+    <div className="relative min-h-[100dvh] w-full flex flex-col justify-between px-6 sm:px-12 py-8 sm:py-12 text-[#18181B] bg-[#FAF9F6] overflow-y-auto overflow-x-hidden select-none">
+      {/* Top Bar */}
+      <header className="w-full max-w-xl mx-auto flex items-center justify-between pb-4 border-b border-stone-200/80">
         <button
           onClick={onBackToHome}
-          className="flex items-center gap-2 text-[#CBD5E1] hover:text-white text-xs tracking-wider uppercase transition cursor-pointer font-semibold"
+          className="flex items-center gap-1.5 text-stone-500 hover:text-[#18181B] text-xs tracking-wider uppercase transition cursor-pointer font-medium"
         >
-          <ArrowLeft className="w-4 h-4 text-[#F59E0B]" />
+          <ArrowLeft className="w-4 h-4 text-[#8A2BCC]" />
           <span>Home</span>
         </button>
 
-        <div className="flex items-center gap-1.5 text-xs text-[#FDA4AF] font-bold">
-          <Heart className="w-3.5 h-3.5 fill-[#F43F5E] text-[#F43F5E]" />
-          <span>Student Tribute</span>
-        </div>
+        <span className="text-[10px] uppercase tracking-[0.25em] text-stone-400 font-sans">
+          DUSC STUDENT CORRESPONDENCE
+        </span>
       </header>
 
-      {/* Main Content Area */}
-      <div className="w-full max-w-md mx-auto my-auto py-6">
-        <AnimatePresence mode="wait">
-          {!isSubmitted ? (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.4 }}
-              className="w-full"
-            >
-              {/* Header text */}
-              <div className="mb-6">
-                <span className="text-[10px] tracking-[0.25em] uppercase text-[#FBBF24] font-bold block mb-1">
-                  Write to a Teacher
-                </span>
-                <h2 className="font-serif text-2xl sm:text-3xl text-white font-normal leading-snug">
-                  Send Words of Gratitude
-                </h2>
-                <p className="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">
-                  Every note you write is delivered directly to your teacher's digital board and preserved for them to read anytime.
+      {/* Main Form Container */}
+      <main className="w-full max-w-xl mx-auto my-auto py-6">
+        {isSubmitted ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-[#FDFBF7] border border-[#EFEBE3] rounded-xs p-8 sm:p-12 text-center shadow-xs"
+          >
+            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#11A960] mx-auto mb-5">
+              <CheckCircle2 className="w-6 h-6" />
+            </div>
+
+            <h2 className="font-serif text-3xl text-[#18181B] mb-2 font-normal">
+              Letter Delivered.
+            </h2>
+            <p className="text-sm text-stone-500 font-light max-w-sm mx-auto mb-8 leading-relaxed">
+              Your heartfelt words have been saved and sent directly to {currentTeacher.name}'s digital keepsake collection.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                onClick={() => onViewTeacherHub(selectedSlug)}
+                className="w-full sm:w-auto px-6 py-3 rounded-sm bg-[#18181B] text-white hover:bg-[#8A2BCC] text-xs uppercase tracking-[0.2em] transition cursor-pointer"
+              >
+                View {currentTeacher.name}'s Keepsake
+              </button>
+              <button
+                onClick={() => {
+                  setMessage('');
+                  setIsSubmitted(false);
+                }}
+                className="w-full sm:w-auto px-6 py-3 rounded-sm bg-white border border-stone-200 text-stone-700 text-xs uppercase tracking-[0.15em] hover:border-stone-400 transition cursor-pointer"
+              >
+                Write Another Letter
+              </button>
+            </div>
+          </motion.div>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="bg-[#FDFBF7] border border-[#EFEBE3] rounded-xs p-6 sm:p-10 shadow-xs space-y-6"
+          >
+            {/* Form Header */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-[#11A960]" />
+                <p className="text-[10px] uppercase tracking-[0.25em] text-stone-400 font-sans font-medium">
+                  PERSONAL TRIBUTE
                 </p>
               </div>
+              <h1 className="font-serif text-3xl text-[#18181B] font-normal">
+                Write to a Teacher
+              </h1>
+              <p className="text-xs text-stone-500 font-light mt-1">
+                Your letter will be displayed directly on your teacher's tribute wall.
+              </p>
+            </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {/* 1. Recipient Teacher Picker */}
-                <div className="relative">
-                  <label className="block text-[11px] font-bold text-[#CBD5E1] uppercase tracking-wider mb-1.5">
-                    Writing To
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setIsTeacherDropdownOpen(!isTeacherDropdownOpen)}
-                    className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-[#1E293B] border-2 border-[#334155] hover:border-[#38BDF8] text-left transition cursor-pointer shadow-md"
-                  >
-                    <div>
-                      <div className="font-serif text-base text-white font-medium flex items-center gap-2">
-                        {currentTeacher.name}
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#0F172A] text-[#FBBF24] font-sans font-bold border border-[#D97706]">
-                          {honorific}
-                        </span>
-                      </div>
-                      <div className="text-[11px] text-[#94A3B8]">
-                        {currentTeacher.designation || 'Teacher'}
-                        {currentTeacher.subject ? ` • ${currentTeacher.subject}` : ''}
-                      </div>
-                    </div>
-                    <ChevronDown
-                      className={`w-4 h-4 text-[#38BDF8] transition-transform duration-200 ${
-                        isTeacherDropdownOpen ? 'rotate-180 text-white' : ''
-                      }`}
-                    />
-                  </button>
-
-                  {/* Dropdown menu with solid colors */}
-                  {isTeacherDropdownOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-2 z-40 max-h-64 overflow-y-auto rounded-2xl bg-[#0F172A] border-2 border-[#334155] shadow-2xl p-2">
-                      <div className="text-[10px] uppercase tracking-wider text-[#FBBF24] px-3 py-1.5 font-bold">
-                        Select a Faculty Member
-                      </div>
-                      {Object.entries(teachers).map(([key, t]) => (
-                        <button
-                          key={key}
-                          type="button"
-                          onClick={() => {
-                            setSelectedSlug(key);
-                            setIsTeacherDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs transition flex items-center justify-between cursor-pointer ${
-                            selectedSlug === key
-                              ? 'bg-[#1E293B] text-white border border-[#10B981]'
-                              : 'text-slate-200 hover:bg-[#1E293B]'
-                          }`}
-                        >
-                          <div>
-                            <div className="font-serif font-medium text-sm text-white">{t.name}</div>
-                            <div className="text-[10px] text-[#94A3B8]">
-                              {t.designation} {t.subject ? `(${t.subject})` : ''}
-                            </div>
-                          </div>
-                          {selectedSlug === key && (
-                            <span className="text-[10px] text-[#34D399] font-bold uppercase">Selected</span>
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* 2. Student Name & Class */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Recipient Teacher Selection */}
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.2em] text-stone-400 mb-2 font-sans">
+                Recipient Educator
+              </label>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsTeacherDropdownOpen(!isTeacherDropdownOpen)}
+                  className="w-full text-left px-4 py-3 bg-white border border-stone-200 rounded-sm flex items-center justify-between hover:border-stone-400 transition cursor-pointer text-sm"
+                >
                   <div>
-                    <label className="block text-[11px] font-bold text-[#CBD5E1] uppercase tracking-wider mb-1.5">
-                      Your Name <span className="text-[#F43F5E]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Samiun Nabi"
-                      value={studentName}
-                      onChange={(e) => setStudentName(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-2xl bg-[#1E293B] border border-[#334155] focus:border-[#38BDF8] focus:outline-none text-sm text-white placeholder-[#64748B] transition"
-                    />
+                    <span className="font-serif text-base text-[#18181B]">
+                      {currentTeacher.name}
+                    </span>
+                    {currentTeacher.subject && (
+                      <span className="text-xs text-stone-400 ml-2">
+                        ({currentTeacher.subject})
+                      </span>
+                    )}
                   </div>
+                  <ChevronDown className="w-4 h-4 text-stone-400" />
+                </button>
 
-                  <div>
-                    <label className="block text-[11px] font-bold text-[#CBD5E1] uppercase tracking-wider mb-1.5">
-                      Class / Batch / Section
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Batch '24 / Class 10"
-                      value={studentClass}
-                      onChange={(e) => setStudentClass(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-2xl bg-[#1E293B] border border-[#334155] focus:border-[#38BDF8] focus:outline-none text-sm text-white placeholder-[#64748B] transition"
-                    />
-                  </div>
-                </div>
-
-                {/* Quick Prompts */}
-                <div>
-                  <div className="flex items-center gap-1.5 text-[10px] text-[#FBBF24] uppercase tracking-wider mb-1.5 font-bold">
-                    <Sparkles className="w-3 h-3 text-[#F59E0B]" />
-                    <span>Inspiration starters (tap to add):</span>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {promptStarters.map((starter, i) => (
+                {isTeacherDropdownOpen && (
+                  <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-stone-200 rounded-sm shadow-lg max-h-60 overflow-y-auto z-30 divide-y divide-stone-100">
+                    {Object.entries(teachers).map(([key, t]) => (
                       <button
-                        key={i}
+                        key={key}
                         type="button"
-                        onClick={() => handleAddPrompt(starter)}
-                        className="text-[11px] px-3 py-1 rounded-full bg-[#1E293B] border border-[#334155] hover:border-[#F59E0B] text-[#CBD5E1] hover:text-[#FBBF24] transition cursor-pointer"
+                        onClick={() => {
+                          setSelectedSlug(key);
+                          setIsTeacherDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2.5 text-xs transition-colors flex items-center justify-between cursor-pointer ${
+                          key === selectedSlug ? 'bg-stone-50 text-[#8A2BCC] font-medium' : 'hover:bg-stone-50 text-stone-700'
+                        }`}
                       >
-                        "{starter.slice(0, 32)}..."
+                        <span>{t.name}</span>
+                        {t.subject && (
+                          <span className="text-[10px] text-stone-400">
+                            {t.subject}
+                          </span>
+                        )}
                       </button>
                     ))}
                   </div>
-                </div>
-
-                {/* 3. Letter Content */}
-                <div>
-                  <label className="block text-[11px] font-bold text-[#CBD5E1] uppercase tracking-wider mb-1.5">
-                    Your Letter <span className="text-[#F43F5E]">*</span>
-                  </label>
-                  <textarea
-                    required
-                    rows={6}
-                    placeholder={`Dear Respected ${honorific},\n\nWrite your thoughts, memorable lessons, and warm wishes here...`}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl bg-[#1E293B] border border-[#334155] focus:border-[#38BDF8] focus:outline-none text-sm text-white placeholder-[#64748B] leading-relaxed font-sans transition resize-none"
-                  />
-                  <div className="flex justify-between items-center text-[10px] text-[#94A3B8] mt-1">
-                    <span>{message.length} characters</span>
-                    <span>Delivered live to your teacher's board</span>
-                  </div>
-                </div>
-
-                {/* Error Banner */}
-                {errorMsg && (
-                  <div className="p-3 rounded-xl bg-[#7F1D1D] border border-[#DC2626] text-white text-xs font-semibold">
-                    {errorMsg}
-                  </div>
                 )}
-
-                {/* Submit button (Solid Crimson Rose) */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3.5 px-4 rounded-2xl bg-[#E11D48] hover:bg-[#BE123C] text-white font-bold text-sm tracking-wider uppercase transition shadow-xl border-2 border-[#FB7185] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 active:scale-98"
-                >
-                  {isSubmitting ? (
-                    <span>Delivering Letter...</span>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      <span>Send Letter to {currentTeacher.name.split(' ')[0]}</span>
-                    </>
-                  )}
-                </button>
-              </form>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-              className="w-full text-center py-8 px-5 rounded-3xl bg-[#1E293B] border-2 border-[#059669] shadow-2xl"
-            >
-              <div className="w-16 h-16 rounded-2xl bg-[#059669] flex items-center justify-center mx-auto mb-4 text-white shadow-lg">
-                <CheckCircle2 className="w-8 h-8" />
               </div>
+            </div>
 
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#34D399] font-bold">
-                Letter Delivered
-              </span>
+            {/* Student Name & Batch */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.2em] text-stone-400 mb-2 font-sans">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  placeholder="e.g., Sadia Rahman"
+                  className="w-full px-4 py-3 bg-white border border-stone-200 rounded-sm text-sm focus:outline-none focus:border-[#8A2BCC] transition"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.2em] text-stone-400 mb-2 font-sans">
+                  Class / Batch (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={studentClass}
+                  onChange={(e) => setStudentClass(e.target.value)}
+                  placeholder="e.g., Class 10, Batch '25"
+                  className="w-full px-4 py-3 bg-white border border-stone-200 rounded-sm text-sm focus:outline-none focus:border-[#8A2BCC] transition"
+                />
+              </div>
+            </div>
 
-              <h3 className="font-serif text-2xl text-white mt-1 mb-2 font-normal">
-                Thank you, {studentName}
-              </h3>
+            {/* Message Area */}
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.2em] text-stone-400 mb-2 font-sans">
+                Your Letter *
+              </label>
+              <textarea
+                required
+                rows={6}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder={`Dear ${currentTeacher.name},\n\nThank you for always inspiring us...`}
+                className="w-full px-4 py-3 bg-white border border-stone-200 rounded-sm text-sm leading-relaxed focus:outline-none focus:border-[#8A2BCC] transition resize-y font-sans"
+              />
+            </div>
 
-              <p className="text-xs text-[#CBD5E1] max-w-xs mx-auto leading-relaxed mb-6">
-                Your letter has been sent to <span className="text-[#FBBF24] font-semibold">{currentTeacher.name}</span>. It is now visible on their dedicated board.
+            {/* Quick Prompt Ideas */}
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-stone-400 mb-2 font-sans">
+                Prompt Starters (Click to add)
               </p>
-
-              {/* Action buttons */}
-              <div className="space-y-2.5 max-w-xs mx-auto">
-                <button
-                  type="button"
-                  onClick={() => onViewTeacherHub(selectedSlug)}
-                  className="w-full py-3 px-4 rounded-xl bg-[#059669] hover:bg-[#047857] text-white font-bold text-xs tracking-wider uppercase transition cursor-pointer shadow-md"
-                >
-                  View {currentTeacher.name.split(' ')[0]}'s Letters Wall
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleResetForAnother}
-                  className="w-full py-2.5 px-4 rounded-xl bg-[#0F172A] hover:bg-[#334155] border border-[#334155] text-white text-xs tracking-wider uppercase transition cursor-pointer"
-                >
-                  Write Another Letter
-                </button>
-
-                <button
-                  type="button"
-                  onClick={onBackToHome}
-                  className="w-full py-2 text-[#38BDF8] hover:text-white text-xs transition cursor-pointer font-semibold"
-                >
-                  Back to Portal Home
-                </button>
+              <div className="flex flex-wrap gap-2">
+                {promptStarters.map((p, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => handleAddPrompt(p)}
+                    className="text-[11px] px-3 py-1.5 rounded-sm bg-white border border-stone-200 text-stone-600 hover:border-stone-400 transition cursor-pointer text-left"
+                  >
+                    + {p.slice(0, 36)}...
+                  </button>
+                ))}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            </div>
 
-      {/* Bottom info */}
-      <footer className="w-full text-center text-[10px] text-[#64748B] pt-3 border-t border-[#334155]">
-        DUSC Teacher's Day • Your message will be preserved respectfully
+            {errorMsg && (
+              <p className="text-xs text-rose-600 font-medium">
+                {errorMsg}
+              </p>
+            )}
+
+            {/* Submit Button */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3.5 rounded-sm bg-[#18181B] text-white hover:bg-[#8A2BCC] text-xs font-medium uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                <span>{isSubmitting ? 'Delivering Letter...' : 'Deliver Letter'}</span>
+                <Send className="w-3.5 h-3.5 text-[#11A960]" />
+              </button>
+            </div>
+          </form>
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="w-full max-w-xl mx-auto pt-6 border-t border-stone-200/80 text-center text-[10px] text-stone-400 uppercase tracking-[0.2em]">
+        Daffodil University School & College • Teacher's Day 2026
       </footer>
     </div>
   );

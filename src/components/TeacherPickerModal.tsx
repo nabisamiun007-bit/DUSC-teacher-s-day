@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from 'react';
-import { X, Search, Check, Copy, QrCode, Sparkles } from 'lucide-react';
+import { X, Search, Check, Copy, QrCode } from 'lucide-react';
 import { teachers } from '@/src/data/teachers';
 import { TeacherQrModal } from './TeacherQrModal';
 import { TeacherData } from '@/src/types';
@@ -19,8 +19,8 @@ export function TeacherPickerModal({
   onClose,
   currentTeacherKey,
   onSelectTeacher,
-  title = 'Select Your Profile',
-  subtitle = 'Daffodil University School & College Faculty',
+  title = 'Faculty Directory',
+  subtitle = 'Daffodil University School & College',
 }: Props) {
   const [search, setSearch] = useState('');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -55,62 +55,53 @@ export function TeacherPickerModal({
     setQrTeacherData({ teacher: item, slug: key });
   };
 
-  // Subject tag solid color mapping (no gradients)
-  const getSubjectBadgeStyle = (subject?: string) => {
-    if (!subject) return 'bg-[#1E293B] text-slate-300 border border-[#475569]';
-    const s = subject.toLowerCase();
-    if (s.includes('math')) return 'bg-[#B45309] text-white border border-[#D97706]';
-    if (s.includes('eng') || s.includes('bangla')) return 'bg-[#6D28D9] text-white border border-[#7C3AED]';
-    if (s.includes('sci') || s.includes('phy') || s.includes('chem')) return 'bg-[#047857] text-white border border-[#059669]';
-    if (s.includes('art') || s.includes('music')) return 'bg-[#BE123C] text-white border border-[#E11D48]';
-    if (s.includes('comp') || s.includes('categori')) return 'bg-[#0369A1] text-white border border-[#0284C7]';
-    if (s.includes('bba') || s.includes('mba') || s.includes('business') || s.includes('account')) return 'bg-[#1D4ED8] text-white border border-[#2563EB]';
-    return 'bg-[#0F766E] text-white border border-[#0D9488]';
-  };
-
   return (
-    <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0B1120]/90 backdrop-blur-sm animate-in fade-in duration-200">
-        <div className="relative w-full max-w-md bg-[#0F172A] border-2 border-[#334155] rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] text-[#F8FAFC]">
-          {/* Header */}
-          <div className="p-5 border-b border-[#334155] flex items-center justify-between bg-[#1E293B]">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-[#FBBF24] font-bold mb-1">
-                <Sparkles className="w-3 h-3 text-[#F59E0B]" />
-                <span>Teachers & Educators</span>
-              </div>
-              <h3 className="font-serif text-xl font-normal text-white">
-                {title}
-              </h3>
-              <p className="text-xs text-[#94A3B8] mt-0.5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-xs select-none">
+      <div className="relative w-full max-w-lg bg-[#FAF9F6] border border-[#EAE5DB] shadow-2xl rounded-xs flex flex-col max-h-[85vh] text-[#18181B] overflow-hidden">
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-stone-200/80 flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="w-2 h-2 rounded-full bg-[#11A960]" />
+              <p className="text-[10px] uppercase tracking-[0.25em] text-stone-400 font-sans font-medium">
                 {subtitle}
               </p>
             </div>
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full bg-[#0F172A] hover:bg-[#334155] text-slate-300 hover:text-white transition cursor-pointer border border-[#334155]"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <h2 className="font-serif text-2xl text-[#18181B] font-normal">
+              {title}
+            </h2>
           </div>
 
-          {/* Search */}
-          <div className="p-4 border-b border-[#334155] bg-[#0F172A]">
-            <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#38BDF8]" />
-              <input
-                type="text"
-                placeholder="Search by name, designation, or subject..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-[#1E293B] border border-[#334155] focus:border-[#38BDF8] rounded-2xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-[#64748B] focus:outline-none transition"
-              />
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-sm text-stone-400 hover:text-[#18181B] hover:bg-stone-100 transition cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Search Bar */}
+        <div className="p-4 border-b border-stone-200/60 bg-white">
+          <div className="relative flex items-center">
+            <Search className="w-4 h-4 absolute left-3 text-stone-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search faculty by name, department, or subject..."
+              className="w-full pl-9 pr-4 py-2 bg-stone-50 border border-stone-200 rounded-sm text-xs font-sans focus:outline-none focus:border-[#8A2BCC] transition"
+            />
+          </div>
+        </div>
+
+        {/* Faculty List */}
+        <div className="overflow-y-auto divide-y divide-stone-100 p-2">
+          {filtered.length === 0 ? (
+            <div className="p-8 text-center text-xs text-stone-400">
+              No faculty found matching "{search}".
             </div>
-          </div>
-
-          {/* List */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-2.5 divide-y divide-[#1E293B]">
-            {filtered.map(([key, item]) => {
+          ) : (
+            filtered.map(([key, data]) => {
               const isSelected = key === currentTeacherKey;
               return (
                 <div
@@ -119,88 +110,72 @@ export function TeacherPickerModal({
                     onSelectTeacher(key);
                     onClose();
                   }}
-                  className={`w-full text-left p-3.5 rounded-2xl transition flex items-center justify-between cursor-pointer group pt-3.5 ${
+                  className={`p-3.5 rounded-sm transition flex items-center justify-between cursor-pointer ${
                     isSelected
-                      ? 'bg-[#1E293B] border-2 border-[#10B981] shadow-md'
-                      : 'hover:bg-[#1E293B] border border-transparent hover:border-[#334155]'
+                      ? 'bg-stone-100 text-[#18181B]'
+                      : 'hover:bg-white text-stone-800'
                   }`}
                 >
                   <div className="flex-1 pr-3">
-                    <p className="font-serif text-base text-white group-hover:text-[#FBBF24] transition font-medium">
-                      {item.name}
-                    </p>
-                    <div className="flex items-center gap-1.5 flex-wrap mt-1">
-                      <span className="text-[11px] text-[#94A3B8]">
-                        {item.designation || 'Teacher'}
+                    <div className="flex items-center gap-2">
+                      <span className="font-serif text-base font-normal">
+                        {data.name}
                       </span>
-                      {item.subject && (
-                        <span
-                          className={`text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${getSubjectBadgeStyle(
-                            item.subject
-                          )}`}
-                        >
-                          {item.subject}
+                      {isSelected && (
+                        <span className="text-[9px] uppercase tracking-wider text-[#8A2BCC] font-sans font-medium">
+                          Active
                         </span>
                       )}
                     </div>
+                    <div className="text-[11px] text-stone-500 font-light mt-0.5">
+                      {data.designation} {data.subject ? `• ${data.subject}` : ''}
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5">
-                    {/* View QR Code button */}
+                  {/* Actions: QR & Copy Link */}
+                  <div className="flex items-center gap-1.5 shrink-0">
                     <button
-                      onClick={(e) => handleOpenQr(key, item, e)}
-                      title="Show Personal QR Code"
-                      className="p-2 rounded-xl bg-[#0F172A] hover:bg-[#D97706] text-[#F59E0B] hover:text-white border border-[#334155] transition"
+                      title="Show QR Code"
+                      onClick={(e) => handleOpenQr(key, data, e)}
+                      className="p-1.5 rounded-sm bg-white hover:bg-stone-50 border border-stone-200 text-stone-500 hover:text-[#8A2BCC] transition cursor-pointer"
                     >
-                      <QrCode className="w-4 h-4" />
+                      <QrCode className="w-3.5 h-3.5" />
                     </button>
 
-                    {/* Copy Link Button */}
                     <button
+                      title="Copy Tribute Link"
                       onClick={(e) => handleCopyLink(key, e)}
-                      title="Copy direct link"
-                      className="p-2 rounded-xl bg-[#0F172A] hover:bg-[#334155] text-slate-300 hover:text-white border border-[#334155] transition"
+                      className="p-1.5 rounded-sm bg-white hover:bg-stone-50 border border-stone-200 text-stone-500 hover:text-[#11A960] transition cursor-pointer"
                     >
                       {copiedKey === key ? (
-                        <Check className="w-4 h-4 text-[#34D399]" />
+                        <Check className="w-3.5 h-3.5 text-[#11A960]" />
                       ) : (
-                        <Copy className="w-4 h-4" />
+                        <Copy className="w-3.5 h-3.5" />
                       )}
                     </button>
-
-                    {isSelected && (
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-white bg-[#059669] border border-[#10B981] px-2 py-1 rounded-lg font-bold">
-                        Active
-                      </span>
-                    )}
                   </div>
                 </div>
               );
-            })}
-            {filtered.length === 0 && (
-              <p className="text-center py-8 text-xs text-[#94A3B8]">
-                No educators found matching "{search}".
-              </p>
-            )}
-          </div>
+            })
+          )}
+        </div>
 
-          {/* Footer */}
-          <div className="p-3.5 border-t border-[#334155] bg-[#1E293B] text-center text-[10px] text-[#94A3B8] flex items-center justify-between px-5">
-            <span>Tap any teacher to open their board</span>
-            <span className="text-[#FBBF24] font-bold">40 Respected Educators</span>
-          </div>
+        {/* Footer */}
+        <div className="p-3 border-t border-stone-200/60 bg-stone-50 flex items-center justify-between text-[10px] text-stone-400 uppercase tracking-widest font-sans">
+          <span>{teacherList.length} Faculty Members</span>
+          <span>Click any teacher to open</span>
         </div>
       </div>
 
-      {/* Individual QR Modal if tapped from list */}
+      {/* QR Code Modal */}
       {qrTeacherData && (
         <TeacherQrModal
-          isOpen={Boolean(qrTeacherData)}
+          isOpen={true}
           onClose={() => setQrTeacherData(null)}
           teacher={qrTeacherData.teacher}
           teacherSlug={qrTeacherData.slug}
         />
       )}
-    </>
+    </div>
   );
 }
