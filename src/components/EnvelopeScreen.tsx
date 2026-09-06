@@ -69,9 +69,14 @@ export function EnvelopeScreen({ teacher, onOpenLetter }: Props) {
                   {teacher.letter.slice(0, 80)}...
                 </p>
               </div>
-              <p className="font-handwriting text-right text-sm text-[#8A2BCC]">
-                With gratitude
-              </p>
+              <div className="text-right">
+                <p className="font-handwriting text-sm text-[#8A2BCC]">
+                  With gratitude
+                </p>
+                <p className="text-[8px] text-stone-400 font-sans tracking-wide">
+                  by Samiun Nabi (Class 6- EV)
+                </p>
+              </div>
             </motion.div>
 
             {/* Front Pocket Flaps */}

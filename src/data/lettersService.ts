@@ -18,7 +18,11 @@ const LOCAL_STORAGE_KEY = 'dusc_cached_student_letters';
 function getLocalLetters(): StudentLetter[] {
   try {
     const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const parsed = raw ? JSON.parse(raw) : [];
+    return parsed.map((item: StudentLetter, idx: number) => ({
+      ...item,
+      id: item.id || `local-letter-${idx}-${item.createdAt || Date.now()}`,
+    }));
   } catch {
     return [];
   }
@@ -45,6 +49,7 @@ export async function sendStudentLetter(data: {
   message: string;
 }): Promise<string> {
   const newLetter: StudentLetter = {
+    id: `letter-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
     teacherId: data.teacherId.toLowerCase().trim(),
     teacherName: data.teacherName.trim(),
     studentName: data.studentName.trim(),

@@ -102,6 +102,9 @@ export function FullScreenLetter({ teacher, onFinishReading }: Props) {
             <p className="font-handwriting text-2xl sm:text-3xl text-[#18181B] mt-1">
               {teacher.studentName || 'Your students'}
             </p>
+            <p className="text-xs text-stone-500 font-sans tracking-wide mt-1">
+              by Samiun Nabi (Class 6- EV)
+            </p>
           </motion.div>
         </div>
       </motion.article>

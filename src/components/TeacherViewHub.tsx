@@ -222,31 +222,34 @@ export function TeacherViewHub({
                 </div>
               </div>
             ) : (
-              letters.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-[#FDFBF7] border border-[#EFEBE3] p-6 rounded-xs shadow-xs"
-                >
-                  <div className="flex items-baseline justify-between border-b border-stone-200/50 pb-3 mb-3">
-                    <div>
-                      <span className="font-handwriting text-2xl text-[#18181B]">
-                        {item.studentName}
-                      </span>
-                      {item.studentClass && (
-                        <span className="text-[11px] text-stone-400 font-sans ml-2">
-                          ({item.studentClass})
+              letters.map((item, index) => {
+                const uniqueKey = item.id || `letter-${item.teacherId || teacherSlug}-${item.studentName}-${item.createdAt || index}-${index}`;
+                return (
+                  <div
+                    key={uniqueKey}
+                    className="bg-[#FDFBF7] border border-[#EFEBE3] p-6 rounded-xs shadow-xs"
+                  >
+                    <div className="flex items-baseline justify-between border-b border-stone-200/50 pb-3 mb-3">
+                      <div>
+                        <span className="font-handwriting text-2xl text-[#18181B]">
+                          {item.studentName}
                         </span>
-                      )}
+                        {item.studentClass && (
+                          <span className="text-[11px] text-stone-400 font-sans ml-2">
+                            ({item.studentClass})
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-stone-400 uppercase tracking-widest font-sans">
+                        {formatDate(item.createdAt)}
+                      </span>
                     </div>
-                    <span className="text-[10px] text-stone-400 uppercase tracking-widest font-sans">
-                      {formatDate(item.createdAt)}
-                    </span>
+                    <p className="text-sm sm:text-base text-stone-700 font-light leading-relaxed whitespace-pre-line font-sans">
+                      {item.message}
+                    </p>
                   </div>
-                  <p className="text-sm sm:text-base text-stone-700 font-light leading-relaxed whitespace-pre-line font-sans">
-                    {item.message}
-                  </p>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         )}
@@ -280,6 +283,9 @@ export function TeacherViewHub({
                 <p className="font-handwriting text-2xl text-[#18181B]">
                   {teacher.studentName || 'Your students'}
                 </p>
+                <p className="text-[11px] text-stone-500 font-sans tracking-wide mt-0.5">
+                  by Samiun Nabi (Class 6- EV)
+                </p>
               </div>
 
               <button
@@ -295,8 +301,9 @@ export function TeacherViewHub({
       </main>
 
       {/* Footer */}
-      <footer className="w-full max-w-2xl mx-auto pt-6 border-t border-stone-200/80 text-center text-[10px] text-stone-400 uppercase tracking-[0.2em]">
-        Daffodil University School & College • Teacher's Day 2026
+      <footer className="w-full max-w-2xl mx-auto pt-6 border-t border-stone-200/80 text-center text-[10px] text-stone-400 uppercase tracking-[0.2em] flex flex-col items-center gap-1">
+        <span>Daffodil University School & College • Teacher's Day 2026</span>
+        <span className="text-[9px] text-stone-400 font-normal">by Samiun Nabi (Class 6- EV)</span>
       </footer>
 
       {/* QR Code Modal */}

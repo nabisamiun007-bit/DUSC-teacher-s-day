@@ -59,9 +59,12 @@ export function FinalKeepsake({
         </p>
 
         {/* [STUDENT NAME] */}
-        <h2 className="font-handwriting text-4xl sm:text-5xl text-[#18181B] mb-8">
+        <h2 className="font-handwriting text-4xl sm:text-5xl text-[#18181B] mb-2">
           {teacher.studentName || 'Your students'}
         </h2>
+        <p className="text-xs text-stone-500 font-sans tracking-wide mb-8">
+          by Samiun Nabi (Class 6- EV)
+        </p>
 
         {/* Thin Divider */}
         <div className="w-12 h-px bg-stone-200 mb-8" />
@@ -148,9 +151,10 @@ export function FinalKeepsake({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.8 }}
-        className="text-center text-[10px] text-stone-400 tracking-[0.2em] font-light uppercase font-sans"
+        className="text-center text-[10px] text-stone-400 tracking-[0.2em] font-light uppercase font-sans flex flex-col items-center gap-1"
       >
         <span>A Digital Keepsake • DUSC</span>
+        <span className="text-[9px] text-stone-400 font-normal">by Samiun Nabi (Class 6- EV)</span>
       </motion.div>
     </div>
   );

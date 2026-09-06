@@ -221,6 +221,9 @@ export function FrontPortal({
         <p className="text-[10px] text-stone-400 uppercase tracking-[0.2em] font-sans">
           A Digital Keepsake • Real-time student letters
         </p>
+        <p className="text-[9px] text-stone-400 font-sans">
+          by Samiun Nabi (Class 6- EV)
+        </p>
       </footer>
     </div>
   );

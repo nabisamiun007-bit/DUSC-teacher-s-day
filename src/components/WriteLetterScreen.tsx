@@ -290,8 +290,9 @@ export function WriteLetterScreen({
       </main>
 
       {/* Footer */}
-      <footer className="w-full max-w-xl mx-auto pt-6 border-t border-stone-200/80 text-center text-[10px] text-stone-400 uppercase tracking-[0.2em]">
-        Daffodil University School & College • Teacher's Day 2026
+      <footer className="w-full max-w-xl mx-auto pt-6 border-t border-stone-200/80 text-center text-[10px] text-stone-400 uppercase tracking-[0.2em] flex flex-col items-center gap-1">
+        <span>Daffodil University School & College • Teacher's Day 2026</span>
+        <span className="text-[9px] text-stone-400 font-normal">by Samiun Nabi (Class 6- EV)</span>
       </footer>
     </div>
   );

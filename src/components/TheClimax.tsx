@@ -76,9 +76,14 @@ export function TheClimax({ teacher, onFinishClimax }: Props) {
               "{defaultFinalMessage}"
             </p>
 
-            <p className="font-handwriting text-2xl text-[#8A2BCC] pt-2">
-              — {teacher.studentName || 'Your students'}
-            </p>
+            <div className="pt-2">
+              <p className="font-handwriting text-2xl text-[#8A2BCC]">
+                — {teacher.studentName || 'Your students'}
+              </p>
+              <p className="text-xs text-stone-500 font-sans tracking-wide mt-1">
+                by Samiun Nabi (Class 6- EV)
+              </p>
+            </div>
           </motion.div>
         )}
       </div>
