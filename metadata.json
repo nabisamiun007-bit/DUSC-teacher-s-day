@@ -1,0 +1,6 @@
+{
+  "name": "Teacher's Day Gift",
+  "description": "A personalized, elegant digital tribute for my teachers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

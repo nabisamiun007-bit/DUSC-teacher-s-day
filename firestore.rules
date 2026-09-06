@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /letters/{letterId} {
+      allow read: if true;
+      allow create: if request.resource.data.teacherId is string
+                    && request.resource.data.studentName is string
+                    && request.resource.data.message is string
+                    && request.resource.data.studentName.size() > 0
+                    && request.resource.data.studentName.size() <= 120
+                    && request.resource.data.message.size() > 0
+                    && request.resource.data.message.size() <= 5000;
+      allow update, delete: if false;
+    }
+  }
+}

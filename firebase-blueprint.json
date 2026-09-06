@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "Letter": {
+      "title": "Student Letter",
+      "description": "Appreciation letters written by students to their teachers",
+      "type": "object",
+      "properties": {
+        "teacherId": { "type": "string", "description": "Slug of the teacher (e.g. rimi, mostofa)" },
+        "teacherName": { "type": "string", "description": "Display name of the teacher" },
+        "studentName": { "type": "string", "description": "Name of the student writing the letter" },
+        "studentClass": { "type": "string", "description": "Student batch, class, or section" },
+        "message": { "type": "string", "description": "The heartfelt letter content" },
+        "createdAt": { "type": "string", "description": "Timestamp when the letter was submitted" }
+      },
+      "required": ["teacherId", "studentName", "message", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/letters/{letterId}": {
+      "schema": { "$ref": "#/entities/Letter" },
+      "description": "Collection of student appreciation letters"
+    }
+  }
+}
